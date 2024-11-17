@@ -12,6 +12,17 @@ builder.Services.AddDbContext<LasarohLinkDbContext>(options => options.UseSqlSer
 builder.Services.AddScoped<UrlService>();
 builder.Services.AddScoped<LogService>();
 
+// Add CORS service
+builder.Services.AddCors(options =>
+{
+	options.AddPolicy("MyPolicy", policy =>
+	{
+		policy.WithOrigins("http://localhost:4321")
+			  .AllowAnyHeader()
+			  .AllowAnyMethod();
+	});
+});
+
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -30,6 +41,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors("MyPolicy");
 
 app.MapControllers();
 

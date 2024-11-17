@@ -17,16 +17,16 @@ namespace lasarohlink_backend.Controllers
 			try
 			{
 				if (!Helper.IsValidUrl(url))
-					return BadRequest(new { error = "Invalid URL. It must be a well-formed URL." });
+					return BadRequest("Invalid URL. It must be a well-formed URL.");
 
 				Url newUrl = urlService.SaveUrl(Helper.GenerateHash(url), url);
 
-				return Ok(new { ShortenedUrl = _baseUrl + newUrl.ShortenedUrl });
+				return Ok(_baseUrl + newUrl.ShortenedUrl);
 			}
 			catch (Exception ex)
 			{
 				logService.SaveLog(ex, HttpContext);
-				return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Unexpected error" });
+				return StatusCode(StatusCodes.Status500InternalServerError, "Unexpected error");
 			}
 		}
 
@@ -38,14 +38,14 @@ namespace lasarohlink_backend.Controllers
 				Url? url = urlService.GetUrlByShortenedUrl(ShortenedUrl);
 
 				if (url == null)
-					return NotFound(new { message = "The URL does not exists or is incorrect." });
+					return NotFound("The URL does not exists or is incorrect.");
 
 				return Redirect(url.UrlOriginal);
 			}
 			catch (Exception ex)
 			{
 				logService.SaveLog(ex, HttpContext);
-				return StatusCode(StatusCodes.Status500InternalServerError, new { error = "Unexpected error" });
+				return StatusCode(StatusCodes.Status500InternalServerError, "Unexpected error");
 			}
 		}
 	}
