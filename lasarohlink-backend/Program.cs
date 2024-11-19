@@ -6,7 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<LasarohLinkDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("LasarohLinkDatabase")));
+// Configuration for SQL Server
+//builder.Services.AddDbContext<LasarohLinkDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("LasarohLinkDatabase")));
+
+// Configuration for PostgreSQL
+builder.Services.AddDbContext<LasarohLinkDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("LasarohLinkDatabase")));
 
 // Registers the services for dependency injection, ensuring a new instance is created for each HTTP request.
 builder.Services.AddScoped<UrlService>();
