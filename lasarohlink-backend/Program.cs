@@ -10,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddDbContext<LasarohLinkDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("LasarohLinkDatabase")));
 
 // Configuration for PostgreSQL
-builder.Services.AddDbContext<LasarohLinkDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("LasarohLinkDatabase")));
+string ConnectionString = Environment.GetEnvironmentVariable("LasarohLinkDatabase") ?? throw new Exception("Connection string not found");
+builder.Services.AddDbContext<LasarohLinkDbContext>(options => options.UseNpgsql(ConnectionString));
 
 // Registers the services for dependency injection, ensuring a new instance is created for each HTTP request.
 builder.Services.AddScoped<UrlService>();
