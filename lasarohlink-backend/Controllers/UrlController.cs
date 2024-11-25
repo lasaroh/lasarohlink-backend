@@ -7,9 +7,17 @@ namespace lasarohlink_backend.Controllers
 {
 	[ApiController]
 	[Route("/api/[controller]")]
-	public class UrlController(UrlService urlService, LogService logService) : ControllerBase
+	public class UrlController : ControllerBase
 	{
 		private readonly string? _baseUrl = Environment.GetEnvironmentVariable("BaseUrl") ?? throw new Exception("Base url not found");
+		private readonly UrlService urlService;
+		private readonly LogService logService;
+
+		public UrlController(UrlService urlService, LogService logService)
+		{
+			this.urlService = urlService;
+			this.logService = logService;
+		}
 
 		[HttpPost]
 		public IActionResult ShortenUrl([FromForm] string url)

@@ -3,8 +3,15 @@ using lasarohlink_backend.Models;
 
 namespace lasarohlink_backend.Services
 {
-	public class LogService(LasarohLinkDbContext context)
+	public class LogService
 	{
+		private readonly LasarohLinkDbContext context;
+
+		public LogService(LasarohLinkDbContext context)
+		{
+			this.context = context;
+		}
+
 		public void SaveLog(Exception ex, HttpContext httpContext)
 		{
 			string userIp = httpContext.Connection.RemoteIpAddress?.ToString() ?? "Unknown IP";

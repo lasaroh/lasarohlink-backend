@@ -3,8 +3,15 @@ using lasarohlink_backend.Models;
 
 namespace lasarohlink_backend.Services
 {
-	public class UrlService(LasarohLinkDbContext context)
+	public class UrlService
 	{
+		private readonly LasarohLinkDbContext context;
+
+		public UrlService(LasarohLinkDbContext context)
+		{
+			this.context = context;
+		}
+
 		public Url SaveUrl(string UrlHash, string UrlOriginal)
 		{
 			Url url = new(UrlHash, UrlOriginal);
