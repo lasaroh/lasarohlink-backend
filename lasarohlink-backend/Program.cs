@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
 {
 	options.AddPolicy("MyPolicy", policy =>
 	{
-		policy.WithOrigins("http://localhost:4321", "https://lasaroh.link")
+		policy.WithOrigins("http://localhost:4321", "https://lasaroh.link", "https://lasarohlink-api-production.up.railway.app")
 			  .AllowAnyHeader()
 			  .AllowAnyMethod();
 	});
@@ -37,11 +37,11 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
 	app.UseSwagger();
 	app.UseSwaggerUI();
-}
+//}
 
 app.UseHttpsRedirection();
 
@@ -50,6 +50,8 @@ app.UseAuthorization();
 app.UseCors("MyPolicy");
 
 app.MapControllers();
+
+app.MapGet("/", () => "Lasaroh API is working.");
 
 // Redirect requests from the short URL to the actual API path
 app.MapGet("/{ShortenedUrl}", (string ShortenedUrl) =>
