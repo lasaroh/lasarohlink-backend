@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
 {
 	options.AddPolicy("MyPolicy", policy =>
 	{
-		policy.WithOrigins("http://localhost:4321")
+		policy.WithOrigins("http://localhost:4321", "https://lasaroh.link")
 			  .AllowAnyHeader()
 			  .AllowAnyMethod();
 	});
