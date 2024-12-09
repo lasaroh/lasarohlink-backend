@@ -6,9 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-// Configuration for SQL Server
-//builder.Services.AddDbContext<LasarohLinkDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("LasarohLinkDatabase")));
-
 // Configuration for PostgreSQL
 string ConnectionString = Environment.GetEnvironmentVariable("LasarohLinkDatabase") ?? throw new Exception("Connection string not found");
 builder.Services.AddDbContext<LasarohLinkDbContext>(options => options.UseNpgsql(ConnectionString));
@@ -18,11 +15,13 @@ builder.Services.AddScoped<UrlService>();
 builder.Services.AddScoped<LogService>();
 
 // Add CORS service
+string BaseUrl = Environment.GetEnvironmentVariable("BaseUrl") ?? throw new Exception("Base url not found");
 builder.Services.AddCors(options =>
 {
 	options.AddPolicy("MyPolicy", policy =>
 	{
-		policy.WithOrigins("http://localhost:4321", "https://lasaroh.link", "https://lasarohlink-api-production.up.railway.app")
+		
+		policy.WithOrigins(BaseUrl)
 			  .AllowAnyHeader()
 			  .AllowAnyMethod();
 	});
@@ -36,12 +35,8 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-	app.UseSwagger();
-	app.UseSwaggerUI();
-//}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
@@ -51,7 +46,7 @@ app.UseCors("MyPolicy");
 
 app.MapControllers();
 
-app.MapGet("/", () => "Lasaroh API is working.");
+app.MapGet("/", () => "LasarohLink API is working.");
 
 // Redirect requests from the short URL to the actual API path
 app.MapGet("/{ShortenedUrl}", (string ShortenedUrl) =>
