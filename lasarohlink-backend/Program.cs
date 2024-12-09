@@ -7,21 +7,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 // Configuration for PostgreSQL
-string ConnectionString = Environment.GetEnvironmentVariable("LasarohLinkDatabase") ?? throw new Exception("Connection string not found");
-builder.Services.AddDbContext<LasarohLinkDbContext>(options => options.UseNpgsql(ConnectionString));
+string LASAROHLINK_DATABASE = Environment.GetEnvironmentVariable("LASAROHLINK_DATABASE") ?? throw new Exception("LASAROHLINK_DATABASE not found");
+builder.Services.AddDbContext<LasarohLinkDbContext>(options => options.UseNpgsql(LASAROHLINK_DATABASE));
 
 // Registers the services for dependency injection, ensuring a new instance is created for each HTTP request.
 builder.Services.AddScoped<UrlService>();
 builder.Services.AddScoped<LogService>();
 
 // Add CORS service
-string BaseUrl = Environment.GetEnvironmentVariable("BaseUrl") ?? throw new Exception("Base url not found");
 builder.Services.AddCors(options =>
 {
 	options.AddPolicy("MyPolicy", policy =>
 	{
-		
-		policy.WithOrigins(BaseUrl)
+		string FRONTEND_URL = Environment.GetEnvironmentVariable("FRONTEND_URL") ?? throw new Exception("FRONTEND_URL not found");
+		policy.WithOrigins(FRONTEND_URL)
 			  .AllowAnyHeader()
 			  .AllowAnyMethod();
 	});

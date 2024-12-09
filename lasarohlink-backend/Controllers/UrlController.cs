@@ -9,7 +9,7 @@ namespace lasarohlink_backend.Controllers
 	[Route("/api/[controller]")]
 	public class UrlController : ControllerBase
 	{
-		private readonly string? _baseUrl = Environment.GetEnvironmentVariable("BaseUrl") ?? throw new Exception("Base url not found");
+		private readonly string? _BACKEND_URL = Environment.GetEnvironmentVariable("BACKEND_URL") ?? throw new Exception("BACKEND_URL not found");
 		private readonly UrlService urlService;
 		private readonly LogService logService;
 
@@ -29,7 +29,7 @@ namespace lasarohlink_backend.Controllers
 
 				Url newUrl = urlService.SaveUrl(Helper.GenerateHash(url), url);
 
-				return Ok(_baseUrl + newUrl.ShortenedUrl);
+				return Ok(_BACKEND_URL + newUrl.ShortenedUrl);
 			}
 			catch (Exception ex)
 			{
