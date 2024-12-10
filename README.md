@@ -2,9 +2,10 @@
 
 This is an API developed in ASP.NET Core with .NET 6.0, designed to manage and respond to requests for **lasarohlink-frontend**. The choice of .NET 6.0 allows for seamless and straightforward deployment on **Railway**
 
-### API Detail
+### Project Links
 
 - **Swagger Documentation**: [https://api.lasaroh.link/Swagger/index.html](https://api.lasaroh.link/Swagger/index.html)
+- **Frontend App**: [https://github.com/lasaroh/lasarohlink-frontend.git](https://github.com/lasaroh/lasarohlink-frontend.git)
 
 ### Database Connection
 
